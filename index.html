@@ -509,6 +509,32 @@ input:focus,select:focus,textarea:focus,button:focus-visible{border-color:#07846
  #setupMoveChoices .move-choice small{white-space:normal;overflow-wrap:anywhere}
  #tutorialCoachBubble{width:min(340px,calc(100vw - 24px));max-height:42dvh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 }
+
+/* === PVP battle layout alignment with VS AI === */
+#pvp .terminal-hp-board{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);max-width:none;gap:10px}
+#pvp .terminal-hp-card{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:center;column-gap:12px;padding:12px}
+#pvp .terminal-pokemon-stage{grid-row:1 / span 4;width:76px;height:76px}
+#pvp .terminal-hp-vs{height:auto;display:grid;place-items:center;background:transparent;padding:0 4px}
+#pvp .terminal-hp-vs:before{display:none}
+#pvp .dice-results-board{display:flex;flex-direction:column;gap:14px}
+#pvp .dice-side-content{display:grid;grid-template-columns:minmax(0,1fr) 86px;gap:12px;align-items:center}
+#pvp .dice-side-zone{width:100%}
+#pvp .pvp-setup-dialog .move-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#pvp .pvp-setup-dialog .move-choice{min-height:82px;text-align:left;padding:12px}
+#pvp .pvp-setup-dialog .move-choice.selected{background:var(--accent2,#dff5ec);border-color:var(--accent,#087f68)}
+@media(min-width:900px){#pvp .dice-results-board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+@media(max-width:640px){
+#pvp .terminal-hp-board{grid-template-columns:minmax(0,1fr);gap:8px}
+#pvp .terminal-hp-card{grid-template-columns:64px minmax(0,1fr);padding:10px}
+#pvp .terminal-pokemon-stage{width:64px;height:64px}
+#pvp .terminal-hp-vs{height:18px;display:grid;place-items:center}
+#pvp .terminal-hp-vs:before{display:block;height:1px;width:100%;background:#59617b;grid-area:1/1}
+#pvp .terminal-hp-vs{position:relative;z-index:1;background:#11182a;padding:0 10px}
+#pvp .dice-results-board{display:flex;flex-direction:column}
+#pvp .dice-side-content{grid-template-columns:minmax(0,1fr) 72px;gap:8px}
+#pvp .pvp-setup-dialog .move-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#pvp .pvp-setup-dialog .move-choice{min-height:74px;padding:9px}
+}
 </style><style>
 .home-return{position:fixed;top:12px;left:12px!important;right:auto!important;z-index:1000;width:228px!important;height:36px!important;min-height:36px!important;box-sizing:border-box;display:flex;align-items:center;justify-content:center;padding:0 12px!important;line-height:1!important;border:1px solid #ffffff40;border-radius:999px;background:#272b43;color:#fff;font-weight:750;cursor:pointer;box-shadow:0 5px 20px #0002;white-space:nowrap}
 </style>
