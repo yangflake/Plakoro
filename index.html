@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="battle-core.js"></script><script src="pvp.js?v=20261017-tower-ranking-refresh-v1" defer></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="battle-core.js"></script><script src="pvp.js?v=20261018-unified-battle-ui-v1" defer></script>
 <title>프라코로 배틀 랩</title>
 <style>
 :root{--bg:#f4f6fb;--panel:#fff;--ink:#182033;--muted:#667085;--line:#dfe4ee;--accent:#5a53e8;--accent2:#e9e8ff;--red:#d94b58;--green:#16845b}
@@ -630,6 +630,22 @@ header:after{display:none!important;content:none!important}
 }
 
 \n/* Desktop: keep ranking tabs and both ranking panels on the same width. */\n@media(min-width:701px){#ranking .tabs{display:flex;width:100%;}#ranking .tabs .tab{flex:1 1 0;min-width:0;text-align:center;}#rankingPanelPvp,#rankingPanelBell,#rankingPanelTower,#homeLeaderboard,#bellTowerLeaderboard,#towerLeaderboard{width:100%;min-width:0;box-sizing:border-box;}}\n
+/* PVP 전투 UI를 VS AI/탑 전투 화면과 같은 밝은 배틀 UI 및 기술 카드 스타일로 통일 */
+.pvp-shell .pvp-battle-board,.pvp-shell .pvp-action-panel,.pvp-shell .pvp-log-panel{background:var(--panel,#fff)!important;color:var(--ink,#192238)!important;border:1px solid var(--line,#dce2ef)!important;box-shadow:var(--shadow-card,0 8px 26px #20294a0d)!important}
+.pvp-shell .pvp-action-panel h2,.pvp-shell .pvp-action-panel h3,.pvp-shell .pvp-action-panel .sub,.pvp-shell .pvp-action-panel .arena-label,.pvp-shell .pvp-log-panel h2,.pvp-shell .pvp-log-panel .sub{color:var(--ink,#192238)!important}
+.pvp-shell .pvp-action-panel .arena-label,.pvp-shell .pvp-log-panel .arena-label{color:var(--muted,#69758c)!important}
+.pvp-shell .pvp-action-panel .pill{background:var(--accent2,#eeedff);color:var(--accent,#5952df);border-color:#d8d5ff}
+.pvp-shell .pvp-action-panel .item{background:var(--surface-soft,#f7f8fc);color:var(--ink,#192238);border-color:var(--line,#dce2ef)}.pvp-shell .pvp-action-panel .item small{color:var(--muted,#69758c)}
+.pvp-shell .pvp-last-attack{background:var(--surface-soft,#f7f8fc);color:var(--ink,#192238);border-color:var(--line,#dce2ef)}.pvp-shell .pvp-last-attack .sub{color:var(--muted,#69758c)}
+.pvp-shell .pvp-action-panel .move-choice,#pvpSetupModal .move-choice,#pvpMovePickerModal .move-choice{min-height:76px!important;padding:12px!important;background:var(--panel,#fff)!important;color:var(--ink,#192238)!important;border:1px solid var(--line,#dce2ef)!important;border-radius:14px!important;box-shadow:0 3px 10px #20294a0a!important}
+.pvp-shell .pvp-action-panel .move-choice small,#pvpSetupModal .move-choice small,#pvpMovePickerModal .move-choice small{color:var(--muted,#69758c)!important;font-size:12px}
+.pvp-shell .pvp-action-panel .move-choice.selected,#pvpSetupModal .move-choice.selected{background:var(--accent2,#eeedff)!important;border-color:var(--accent,#5952df)!important;box-shadow:0 0 0 2px #655df022!important}
+.pvp-shell .pvp-action-panel .move-choice.blocked,#pvpMovePickerModal .move-choice.blocked{opacity:.42}
+#pvpSetupModal .pvp-setup-dialog{background:var(--panel,#fff);color:var(--ink,#192238);border:1px solid var(--line,#dce2ef);border-radius:20px}
+#pvpSetupModal .pvp-move-heading h2,#pvpSetupModal .pvp-setup-dialog .field label{color:var(--ink,#192238)}#pvpSetupModal .pvp-setup-dialog .sub{color:var(--muted,#69758c)}#pvpSetupModal .pvp-move-heading .arena-label{color:var(--muted,#69758c)}
+#pvpMovePickerModal .move-picker-dialog{background:var(--panel,#fff);color:var(--ink,#192238);border-color:var(--line,#dce2ef)}#pvpMovePickerModal .move-picker-heading h2,#pvpMovePickerModal .move-picker-dialog .sub{color:var(--ink,#192238)}
+@media(max-width:640px){#pvpSetupModal .pvp-setup-dialog{width:calc(100vw - 24px);max-width:520px;max-height:calc(100dvh - 24px);overflow-y:auto;padding:16px}#pvpSetupModal .move-choice-grid,#pvpMovePickerModal .move-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#pvpSetupModal .move-choice,#pvpMovePickerModal .move-choice{min-height:72px!important;padding:9px!important}#pvpSetupModal .pvp-setup-dialog .row{position:sticky;bottom:-16px;background:var(--panel,#fff);padding:10px 0 0;margin-top:12px}}
+
 /* 판정 색은 에네코로 전체가 아니라 각 에너지 얼굴의 테두리에만 표시 */
 .attack-result-title.success{color:#69e6a0}
 .attack-result-title.failed{color:#ff8e98}
