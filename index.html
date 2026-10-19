@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="battle-core.js"></script><script src="pvp.js?v=20261018-unified-battle-ui-v1" defer></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="battle-core.js"></script><script src="pvp.js?v=20261019-pvp-vsai-move-ui-v2" defer></script>
 <title>프라코로 배틀 랩</title>
 <style>
 :root{--bg:#f4f6fb;--panel:#fff;--ink:#182033;--muted:#667085;--line:#dfe4ee;--accent:#5a53e8;--accent2:#e9e8ff;--red:#d94b58;--green:#16845b}
@@ -753,7 +753,7 @@ header:after{display:none!important;content:none!important}
    <div class="row terminal-actions"><button type="button" class="btn" id="pvpAttack" disabled>에네코로 굴리기 · 기술 선택</button></div>
    <div id="pvpBattleState" class="pvp-state-list"></div>
   </div>
-  <div id="pvpSetupModal" class="pvp-setup-modal hidden" role="dialog" aria-modal="true" aria-labelledby="pvpSetupTitle"><div class="pvp-setup-dialog"><div class="pvp-move-heading"><div><div class="arena-label">BATTLE SETUP</div><h2 id="pvpSetupTitle">포켓몬 / 기술 선택</h2></div><button type="button" class="btn secondary" id="pvpSetupClose">닫기</button></div><div class="field"><label for="pvpPokemon">내 포켓몬</label><select id="pvpPokemon"></select></div><div class="field" id="pvpMoveSetupField"><label>기술 선택 · 서로 다른 4개</label><div id="pvpMoveChoices" class="move-choice-grid"></div><p class="sub" id="pvpMoveSlotInfo">기술 0/4 선택</p></div><div class="field player-move-select"><label for="pvpMove">이번 턴 사용할 기술</label><select id="pvpMove"></select></div><div class="row terminal-actions"><button type="button" class="btn secondary" id="pvpSetupCancel">닫기</button><button type="button" class="btn" id="pvpReady" disabled>선택 완료 · 준비 확정</button></div></div></div>
+  <div id="pvpSetupModal" class="pvp-setup-modal hidden" role="dialog" aria-modal="true" aria-labelledby="pvpSetupTitle"><div class="pvp-setup-dialog"><div class="pvp-move-heading"><div><div class="arena-label">BATTLE SETUP</div><h2 id="pvpSetupTitle">대전 설정 / 기술 선택</h2></div><button type="button" class="btn secondary" id="pvpSetupClose">닫기</button></div><div class="field"><label for="pvpPokemon">내 포켓몬</label><select id="pvpPokemon"></select></div><div class="field" id="pvpMoveSetupField"><label>2단계 · 내 기술 선택 · 7개 중 서로 다른 4개</label><p class="sub">기술 카드를 눌러 선택/해제해. 에너지 비용과 기본 피해를 확인하고, 한 번 터치하거나 커서를 올리면 추가 효과도 볼 수 있어.</p><div id="pvpMoveChoices" class="move-choice-grid"></div><p class="sub" id="pvpMoveSlotInfo">기술 0/4 선택</p></div><div class="field player-move-select"><label for="pvpMove">이번 턴 사용할 기술</label><select id="pvpMove"></select></div><div class="row terminal-actions"><button type="button" class="btn secondary" id="pvpSetupCancel">닫기</button><button type="button" class="btn" id="pvpReady" disabled>선택 완료 · 준비 확정</button></div></div></div>
   <div id="pvpResultModal" class="pvp-result-modal hidden" role="dialog" aria-modal="true" aria-labelledby="pvpResultTitle"><div class="pvp-result-dialog"><div class="arena-label">BATTLE RESULT</div><h2 id="pvpResultTitle">대전 결과</h2><p id="pvpResultSummary" class="sub">최종 결과</p><div id="pvpResultPlayers" class="pvp-result-players"></div><div class="row terminal-actions"><button type="button" class="btn secondary" id="pvpResultClose">결과 닫기</button><button type="button" class="btn" id="pvpResultLeave">방 나가기</button></div></div></div>
   <div id="pvpMovePickerModal" class="move-picker-backdrop" role="dialog" aria-modal="true" aria-labelledby="pvpMovePickerTitle"><div class="move-picker-dialog"><div class="move-picker-heading"><h2 id="pvpMovePickerTitle">이번 턴에 사용할 기술 선택</h2><button type="button" id="pvpMovePickerClose" class="btn secondary">닫기</button></div><p id="pvpMovePickerHint" class="sub">선택한 기술 4개 중 하나를 클릭해 주세요.</p><div id="pvpMovePickerChoices" class="move-choice-grid"></div></div></div>
   <div class="terminal-panel pvp-log-panel"><div class="terminal-heading"><div><div class="arena-label">BATTLE LOG</div><h2>대전 기록</h2></div><span class="terminal-live"><i></i> REALTIME</span></div><div id="pvpLog" class="log">대전 기록이 여기에 표시됩니다.</div></div>
@@ -989,7 +989,7 @@ function renderSlots(n){const p=selectedPokemon(n);for(let i=0;i<4;i++){const el
   const id=btn.dataset.moveId||btn.dataset.turnId||btn.dataset.setupMove;if(!id)return null;
   let p=null;
   if(btn.closest('#setupModal')){const pid=document.getElementById('setupP1')?.value;p=db.pokemon.find(x=>String(x.id)===String(pid))||null;}
-  else if(btn.closest('#pvpSetupModal')){const pid=document.getElementById('pvpPokemon')?.value;p=db.pokemon.find(x=>String(x.id)===String(pid))||null;}
+  else if(btn.closest('#pvpSetupModal')||btn.closest('#pvpMovePickerModal')){const pid=document.getElementById('pvpPokemon')?.value;p=db.pokemon.find(x=>String(x.id)===String(pid))||null;}
   else p=selectedPokemon('1');
   return p&&moveById(p,id)||null;
  }
@@ -1374,4 +1374,15 @@ if(!restoreTowerProgress())renderAll();
  $('startTutorial').onclick=function(){tutorialState.step=0;tutorialState.energyRoll=null;tutorialState.pose=null;renderTutorialStep();$('tutorialModal').classList.add('open')};
 })();
 </script>
+<style>
+/* PVP 기술 선택은 VS AI와 같은 카드형 팝업/2열 레이아웃을 사용 */
+#pvpSetupModal .pvp-setup-dialog{background:#fff!important;color:var(--ink,#182033)!important;border:1px solid var(--line,#dfe4ee)!important;border-radius:18px!important;box-shadow:0 24px 80px #0005!important}
+#pvpSetupModal .pvp-setup-dialog .pvp-move-heading{position:sticky;top:-14px;z-index:4;background:#fff;padding:2px 0 10px;margin-bottom:10px}
+#pvpSetupModal .pvp-setup-dialog .move-choice-grid,#pvpMovePickerModal .move-choice-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+#pvpSetupModal .pvp-setup-dialog .move-choice,#pvpMovePickerModal .move-choice{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;min-width:0;min-height:76px!important;padding:12px!important;text-align:left;background:#fff!important;color:var(--ink,#182033)!important;border:1px solid var(--line,#dfe4ee)!important;border-radius:14px!important;box-shadow:0 3px 10px #20294a0a!important;touch-action:manipulation}
+#pvpSetupModal .pvp-setup-dialog .move-choice.selected{background:var(--accent2,#e9e8ff)!important;border-color:var(--accent,#5a53e8)!important;box-shadow:0 0 0 2px #5a53e81c!important}
+#pvpSetupModal .pvp-setup-dialog .move-choice small,#pvpMovePickerModal .move-choice small{color:var(--muted,#667085)!important;white-space:normal;overflow-wrap:anywhere;font-size:12px}
+#pvpSetupModal .pvp-setup-dialog .terminal-actions{position:sticky;bottom:-13px;z-index:5;background:#fff;padding:12px 0 2px;margin-top:auto;box-shadow:0 -8px 14px #ffffffed}
+@media(max-width:640px){#pvpSetupModal .pvp-setup-dialog,#pvpMovePickerModal .move-picker-dialog{width:100%;max-height:calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:13px;border-radius:16px}#pvpSetupModal .pvp-setup-dialog .move-choice-grid,#pvpMovePickerModal .move-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}#pvpSetupModal .pvp-setup-dialog .move-choice,#pvpMovePickerModal .move-choice{min-height:72px!important;padding:9px!important}#pvpSetupModal .pvp-setup-dialog .terminal-actions{flex-direction:row!important;gap:8px}#pvpSetupModal .pvp-setup-dialog .terminal-actions>*{width:auto!important;min-width:0;flex:1}}
+</style>
 </body></html>
