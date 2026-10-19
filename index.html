@@ -879,12 +879,12 @@ makeMove('오물폭탄',{악:3},30,[{poses:['정방향','물구나무','뒤로',
 ]},
 {name:'메타그로스',hp:120,type:'강철',weakness:'불꽃',moves:[
 makeMove('빔',{강철:1},10,[{poses:['정방향','뒤로'],type:'bonus',value:20}]),
-makeMove('헤비봄버',{강철:4},40,[{poses:['정방향','물구나무'],type:'bonus',value:40},{poses:['뒤로','엎드림'],type:'diceShift',selfNext:-2}]),
-makeMove('사칙연산',{강철:2},20,[{poses:['정방향','물구나무','뒤로','엎드림'],type:'mirrorOwnPosture'}]),
-makeMove('스트레이트 스탬프',{강철:3},30,[{poses:['정방향','뒤로'],type:'bonus',value:20}]),
+makeMove('헤비봄버',{강철:4},40,[{poses:['정방향','왼쪽','오른쪽'],type:'bonus',value:40},{poses:['물구나무','뒤로','엎드림'],type:'diceShift',selfNext:-2}]),
+makeMove('사칙연산',{강철:2},20,[{poses:['정방향','뒤로','왼쪽','오른쪽'],type:'mirrorOwnPosture'}]),
+makeMove('스트레이트 스탬프',{강철:3},30,[{poses:['정방향','뒤로','엎드림'],type:'bonus',value:20}]),
 makeMove('코멧펀치',{강철:3},20,[{poses:['정방향','뒤로'],type:'bonus',value:40}]),
-makeMove('대폭발',{무색:4},100,[{poses:['정방향'],type:'immuneSelfNext'}],'기본 효과: 이 포켓몬에게도 120 데미지. 서기 효과 성공 시 자신이 받는 이 기술의 데미지를 무효화.',{baseSelfDamage:120}),
-makeMove('와이드 프레스',{강철:2},20,[{poses:['정방향','뒤로'],type:'bonus',value:30}])
+makeMove('대폭발',{무색:4},100,[{poses:['정방향'],type:'cancelSelfDamage'}],'기본 효과: 이 포켓몬에게도 120 데미지. 정방향이면 자신이 받는 이 기술의 데미지를 무효화.',{baseSelfDamage:120}),
+makeMove('와이드 프레스',{강철:2},20,[{poses:['왼쪽','오른쪽'],type:'bonus',value:30}])
 ]},
 {name:'루카리오',hp:120,type:'격투',weakness:'불꽃',moves:[
 makeMove('킥',{격투:1},10,[{poses:['정방향','물구나무','뒤로'],type:'bonus',value:10}]),
