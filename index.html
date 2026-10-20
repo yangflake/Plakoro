@@ -1267,7 +1267,7 @@ if(!restoreTowerProgress())renderAll();
  let guided=false, stage=0, allowedMoves=[], twoEnergyMove=null, coachTarget=null, activeCoachPlace=null;
  const style=document.createElement('style');
  style.textContent=`
- #tutorialCoachSpotlight{position:fixed;z-index:100000;pointer-events:none;border-radius:12px;box-shadow:0 0 0 3px rgba(90,83,232,.2);outline:3px solid #5a53e8;outline-offset:2px;transition:left .12s ease,top .12s ease,width .12s ease,height .12s ease}
+ #tutorialCoachSpotlight{position:fixed;z-index:100000;pointer-events:none;border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.58),0 0 0 3px rgba(90,83,232,.2);outline:3px solid #5a53e8;outline-offset:2px;transition:left .12s ease,top .12s ease,width .12s ease,height .12s ease}
  #tutorialCoachBubble{position:fixed;z-index:100002;max-width:min(360px,calc(100vw - 28px));width:max-content;background:#fff;color:#172033;border:2px solid #d7e2f6;border-radius:18px;padding:15px 16px 13px;box-shadow:0 12px 40px #0005;font-size:15px;line-height:1.55}
  #tutorialCoachBubble:before{content:"";position:absolute;width:16px;height:16px;background:#fff;transform:rotate(45deg);border-left:2px solid #d7e2f6;border-top:2px solid #d7e2f6}
  #tutorialCoachBubble[data-tail="down"]:before{bottom:-9px;left:var(--coach-arrow-left,28px);transform:rotate(225deg)}
