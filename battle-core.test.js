@@ -466,3 +466,15 @@ console.log('Battle core tests passed: shared helpers, all effect handlers and e
   assert.equal(checked, 42, 'oracle must compare every posture for all six representative moves');
   console.log('Expected-vs-actual damage oracle passed: ' + checked + ' comparisons across live move data.');
 }
+
+{
+  // Mobile layout regression checks: tutorial text and actions must remain reachable in short viewports.
+  const html = fs.readFileSync('./index.html', 'utf8');
+  assert(html.includes("#tutorialModal .tutorial-dialog{display:flex;flex-direction:column"), 'tutorial modal must use a constrained flex layout');
+  assert(html.includes("#tutorialModal .tutorial-modal-body{flex:1 1 auto;min-height:0;overflow-y:auto"), 'tutorial body must scroll instead of clipping long steps');
+  assert(html.includes("#tutorialModal .tutorial-modal-footer{flex:0 0 auto;position:sticky"), 'tutorial navigation must stay visible while reading');
+  assert(html.includes("env(safe-area-inset-bottom)"), 'dialogs must respect mobile safe-area insets');
+  assert(html.includes("bubble.style.maxHeight=Math.max(120,Math.min(viewH-2*edge,above?spaceAbove:spaceBelow))"), 'tutorial coach bubble must fit the visible viewport');
+  assert(html.includes("target.scrollIntoView({behavior:'auto',block:'center',inline:'nearest'})"), 'tutorial coach must position after a non-animated target scroll');
+  assert(html.includes("@media(max-height:560px)"), 'short-height devices must have a compact tutorial layout');
+}
