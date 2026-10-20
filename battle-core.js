@@ -92,6 +92,11 @@
     case 'extraRoll': if(ctx.rollExtra){var extraRoll=ctx.rollExtra();roll=roll.concat(extraRoll);counts=rollCounts(roll);notes.push('추가 에네코로 '+extraRoll.map(function(x){return x.join('+')}).join('/'))}break;
    }
   });
+  // 메타그로스의 대폭발은 정방향일 때 기본 자해 피해 120을 반드시 무효화한다.
+  // 부가 효과 처리 순서/자세 값 형식에 영향을 받지 않도록 최종 피해 산출 전에 보정한다.
+  if(!failed && move && move.name==='대폭발' && String(posture||'').trim()==='정방향'){
+   if(selfDamage>0){selfDamage=0;notes.push('대폭발 정방향 효과: 자신이 받는 자해 피해 0')}
+  }
   return {damage:damage,damageParts:damageParts,heal:heal,selfDamage:selfDamage,failed:failed,roll:roll,counts:counts,notes:notes};
  }
  root.PlakoroBattleCore={rollCounts:rollCounts,canPay:canPay,pose:pose,attackType:attackType,poseInfo:poseInfo,validateMove:validateMove,diceCount:diceCount,applyDamageRules:applyDamageRules,applyMoveEffects:applyMoveEffects};
