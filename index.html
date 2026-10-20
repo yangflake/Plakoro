@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="move-ui.js?v=20261020-explosion-ui-unified-v2"></script><script src="battle-core.js"></script><script src="pvp.js?v=20261020-explosion-ui-unified-v2" defer></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="move-ui.js?v=20261020-explosion-ui-unified-v2"></script><script src="battle-core.js"></script><script src="pvp.js?v=20261020-explosion-ui-unified-v3" defer></script>
 <title>프라코로 배틀 랩</title>
 <style>
 :root{--bg:#f4f6fb;--panel:#fff;--ink:#182033;--muted:#667085;--line:#dfe4ee;--accent:#5a53e8;--accent2:#e9e8ff;--red:#d94b58;--green:#16845b}
@@ -754,6 +754,7 @@ header:after{display:none!important;content:none!important}
   <div class="terminal-panel pvp-battle-board">
    <div class="terminal-heading"><div><div class="arena-label">LIVE BATTLE</div><h2>배틀 필드</h2></div><span class="terminal-live"><i></i> REALTIME</span></div>
    <div class="terminal-status" id="pvpBattleStatus">방을 만들거나 참가한 뒤 포켓몬과 기술 4개를 확정해 주세요.</div>
+   <div class="field opponent-moves pvp-opponent-moves"><label>상대가 선택한 기술 4개 <span class="sub">· 양쪽 준비 완료 후 공개</span></label><div id="pvpOpponentMoveReveal" class="move-reveal-grid"><p class="sub">대전 시작 시 공개됩니다.</p></div></div>
    <div class="terminal-hp-board" aria-label="양쪽 포켓몬 체력">
     <div class="terminal-hp-card terminal-hp-opponent"><div class="terminal-pokemon-stage"><img id="pvpOpponentSprite" alt="상대 포켓몬 도트" hidden><span class="terminal-sprite-placeholder">상대 포켓몬</span></div><div class="terminal-hp-top"><b id="pvpOpponentPreview">상대 포켓몬</b><strong id="pvpOpponentHp">— / —</strong></div><div class="terminal-hp-track"><span id="pvpOpponentHpBar"></span></div><div class="terminal-hp-caption">상대 HP</div></div>
     <div class="terminal-hp-vs">VS</div>
@@ -1448,6 +1449,9 @@ if(!restoreTowerProgress())renderAll();
 #pvp .pvp-battle-board>.pvp-action-panel #pvpAttack{width:100%;min-height:50px;}
 #pvp .pvp-battle-board>.pvp-action-panel .pvp-state-list{margin-top:12px;}
 @media(max-width:600px){#pvp .pvp-battle-board>.pvp-action-panel{margin-top:14px!important;padding-top:14px!important}#pvp .pvp-battle-board>.pvp-action-panel .terminal-heading{align-items:flex-start;flex-wrap:wrap}#pvp .pvp-battle-board>.pvp-action-panel .pvp-setup-launch{display:grid;grid-template-columns:1fr;gap:8px}#pvp .pvp-battle-board>.pvp-action-panel .terminal-actions{position:static!important;padding:0!important}}
+
+
+#pvp .pvp-opponent-moves{margin:10px 0 14px;min-width:0}#pvp .pvp-opponent-moves>label{display:block;font-size:12px;font-weight:800;color:var(--muted,#667085);margin-bottom:7px}#pvp .pvp-opponent-moves .move-reveal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#pvp .pvp-opponent-moves .item{background:var(--surface-soft,#f7f8fc);border-color:var(--line,#dfe4ee);min-width:0}#pvp .pvp-opponent-moves .item small{overflow-wrap:anywhere}@media(max-width:480px){#pvp .pvp-opponent-moves .move-reveal-grid{grid-template-columns:1fr}}
 
 </style>
 </body></html>
