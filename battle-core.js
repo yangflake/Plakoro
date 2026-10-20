@@ -94,8 +94,8 @@
   });
   // 메타그로스의 대폭발은 정방향일 때 기본 자해 피해 120을 반드시 무효화한다.
   // 부가 효과 처리 순서/자세 값 형식에 영향을 받지 않도록 최종 피해 산출 전에 보정한다.
-  if(!failed && move && move.name==='대폭발' && String(posture||'').trim()==='정방향'){
-   if(selfDamage>0){selfDamage=0;notes.push('대폭발 정방향 효과: 자신이 받는 자해 피해 0')}
+  if(!failed && move && move.name==='대폭발' && ['정방향','정위치','서기'].includes(String(posture||'').trim())){
+   if(selfDamage>0){selfDamage=0;notes.push('대폭발 정방향 효과: 기본 효과 무효 · 자신이 받는 자해 피해 120 무효')}
   }
   return {damage:damage,damageParts:damageParts,heal:heal,selfDamage:selfDamage,failed:failed,roll:roll,counts:counts,notes:notes};
  }
