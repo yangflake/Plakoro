@@ -478,7 +478,7 @@ console.log('Battle core tests passed: shared helpers, all effect handlers and e
   assert(html.includes("target.scrollIntoView({behavior:'auto',block:'nearest',inline:'nearest'})"), 'tutorial coach must avoid forced recentering when opening a step');
    assert(html.includes("const editor=$('tutorialFaceEditor');if(editor)editor.hidden=true;"), 'legacy tutorial helper must not set hidden on a missing editor');
    assert(html.includes("function faceEditor(){const host=$('tutorialFaceEditor');if(!host)return;"), 'legacy tutorial editor must safely handle a missing host');
-   assert(html.includes("box-shadow:0 0 0 3px rgba(90,83,232,.2);outline:3px solid #5a53e8"), 'tutorial highlighting must outline the target without a full-screen dark overlay');
+   assert(html.includes("box-shadow:0 0 0 9999px rgba(0,0,0,.58),0 0 0 3px rgba(90,83,232,.2);outline:3px solid #5a53e8"), 'tutorial spotlight must dim the outside area while keeping the target clear');
    assert(html.includes('window.addEventListener(\'scroll\',repositionCoach,true)'), 'tutorial coach must reposition or hide on mobile scrolling');
    assert(html.includes('if(r.bottom<visibleTop||r.top>visibleBottom||r.right<0||r.left>innerWidth)'), 'tutorial highlight must hide when its target leaves the visible viewport');
   assert(html.includes("@media(max-height:560px)"), 'short-height devices must have a compact tutorial layout');
