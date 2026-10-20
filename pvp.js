@@ -166,7 +166,7 @@ function hostAction(a){
   if(own.nextAttackBonus){damage+=own.nextAttackBonus;notes.push('저장된 추가 피해 +'+own.nextAttackBonus);own.nextAttackBonus=0}
  }
  var damageResult=PlakoroBattleCore.applyDamageRules({damage:damage,failed:failed,targetEffects:te,move:move,weakness:tar.weakness,ignoreWeakness:move.name==='일렉러쉬'});damage=damageResult.damage;notes=notes.concat(damageResult.notes);
- tar.hp=Math.max(0,tar.hp-damage);att.hp=Math.min(att.maxHp,att.hp+heal);if(selfDamage&&!failed)att.hp=Math.max(0,att.hp-selfDamage);att.lastFailed=failed;att.lastMove=mid(move);roomState.lastAttackResult={attacker:att.name,moveName:move.name,damage:damage,failed:failed,heal:heal,selfDamage:selfDamage,notes:notes.slice(),posture:posture};
+ tar.hp=Math.max(0,tar.hp-damage);att.hp=Math.min(att.maxHp,att.hp+heal);if(!failed&&move.name==='대폭발'&&['정방향','정위치','서기'].includes(String(posture||'').trim())&&selfDamage>0){selfDamage=0;notes.push('대폭발 정방향 효과: 기본 효과 무효 · 자신이 받는 자해 피해 120 무효')}if(selfDamage&&!failed)att.hp=Math.max(0,att.hp-selfDamage);att.lastFailed=failed;att.lastMove=mid(move);roomState.lastAttackResult={attacker:att.name,moveName:move.name,damage:damage,failed:failed,heal:heal,selfDamage:selfDamage,notes:notes.slice(),posture:posture};
  log(att.name+' · '+move.name+' · 에네코로 '+(roll.length?roll.map(function(x){return x.join('+')}).join(' / '):'없음')+' · 캐릭코로 '+posture+' · '+(success?'에너지 성공':'에너지 실패')+' · '+damage+' 피해'+(heal?' · 회복 '+heal:'')+(selfDamage&&!failed?' · 자해 '+selfDamage:'')+(notes.length?' · '+notes.join(' / '):''));
  if(tar.hp<=0||att.hp<=0){roomState.over=true;log((tar.hp<=0?att.name:tar.name)+' 승리!')}else roomState.turn=targetId;publish();
 }
