@@ -475,6 +475,11 @@ console.log('Battle core tests passed: shared helpers, all effect handlers and e
   assert(html.includes("#tutorialModal .tutorial-modal-footer{flex:0 0 auto;position:sticky"), 'tutorial navigation must stay visible while reading');
   assert(html.includes("env(safe-area-inset-bottom)"), 'dialogs must respect mobile safe-area insets');
   assert(html.includes("bubble.style.maxHeight=Math.max(120,Math.min(viewH-2*edge,above?spaceAbove:spaceBelow))"), 'tutorial coach bubble must fit the visible viewport');
-  assert(html.includes("target.scrollIntoView({behavior:'auto',block:'center',inline:'nearest'})"), 'tutorial coach must position after a non-animated target scroll');
+  assert(html.includes("target.scrollIntoView({behavior:'auto',block:'nearest',inline:'nearest'})"), 'tutorial coach must avoid forced recentering when opening a step');
+   assert(html.includes("const editor=$('tutorialFaceEditor');if(editor)editor.hidden=true;"), 'legacy tutorial helper must not set hidden on a missing editor');
+   assert(html.includes("function faceEditor(){const host=$('tutorialFaceEditor');if(!host)return;"), 'legacy tutorial editor must safely handle a missing host');
+   assert(html.includes("box-shadow:0 0 0 3px rgba(90,83,232,.2);outline:3px solid #5a53e8"), 'tutorial highlighting must outline the target without a full-screen dark overlay');
+   assert(html.includes('window.addEventListener(\'scroll\',repositionCoach,true)'), 'tutorial coach must reposition or hide on mobile scrolling');
+   assert(html.includes('if(r.bottom<visibleTop||r.top>visibleBottom||r.right<0||r.left>innerWidth)'), 'tutorial highlight must hide when its target leaves the visible viewport');
   assert(html.includes("@media(max-height:560px)"), 'short-height devices must have a compact tutorial layout');
 }
