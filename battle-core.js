@@ -38,10 +38,11 @@
   var damage=Math.max(0,Number(input.damage)||0),notes=[];
   var failed=!!input.failed,targetEffects=input.targetEffects||(input.targetEffects={});
   if(failed){damage=0;notes.push('공격 실패')}
-  if(targetEffects.immuneNext){if(!failed){damage=0;notes.push('피해 무효')}targetEffects.immuneNext=false}
-  if(targetEffects.reduce){
+  // Failed attacks must not consume one-hit defensive states.
+  if(!failed&&targetEffects.immuneNext){damage=0;notes.push('피해 무효');targetEffects.immuneNext=false}
+  if(!failed&&targetEffects.reduce){
    var reduction=Number(targetEffects.reduce||0);
-   if(!failed&&damage>0){damage=Math.max(0,damage-reduction);notes.push('피해 감소 -'+reduction)}
+   if(damage>0){damage=Math.max(0,damage-reduction);notes.push('피해 감소 -'+reduction)}
    targetEffects.reduce=0;
   }
   var type=attackType(input.move);
