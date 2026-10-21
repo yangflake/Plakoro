@@ -481,5 +481,9 @@ console.log('Battle core tests passed: shared helpers, all effect handlers and e
    assert(html.includes("box-shadow:0 0 0 9999px rgba(0,0,0,.58),0 0 0 3px rgba(90,83,232,.2);outline:3px solid #5a53e8"), 'tutorial spotlight must dim the outside area while keeping the target clear');
    assert(html.includes('window.addEventListener(\'scroll\',repositionCoach,true)'), 'tutorial coach must reposition or hide on mobile scrolling');
    assert(html.includes('if(r.bottom<visibleTop||r.top>visibleBottom||r.right<0||r.left>innerWidth)'), 'tutorial highlight must hide when its target leaves the visible viewport');
-  assert(html.includes("@media(max-height:560px)"), 'short-height devices must have a compact tutorial layout');
+  assert(html.includes("function normalizeMetagrossExplosion()"), 'older saved Metagross records must receive the current Explosion rule in memory');
+   assert(html.includes("m.cost={무색:4};m.damage=100;m.baseSelfDamage=120;"), 'Metagross Explosion must remain colorless x4, 100 damage, and 120 base self-damage');
+   assert(html.includes("정방향일 때 이 기본 자해 피해를 무효화한다."), 'Metagross move-list description must explain that only the basic self-damage is cancelled in the upright posture');
+   assert(html.includes("cancelSelfDamage:'정방향 효과: 기본 자해 피해 120 무효'"), 'Metagross tooltip must label the upright self-damage cancellation clearly');
+   assert(html.includes("@media(max-height:560px)"), 'short-height devices must have a compact tutorial layout');
 }
