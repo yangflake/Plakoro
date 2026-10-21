@@ -962,6 +962,18 @@ function showAppDiagnostic(message){
 window.addEventListener('error',e=>showAppDiagnostic('화면 처리 중 오류: '+(e.message||'알 수 없는 오류')+' · 저장 데이터는 자동 초기화하지 않았습니다. JSON 내보내기/백업으로 원본을 보존해 주세요.'));
 window.addEventListener('unhandledrejection',e=>showAppDiagnostic('비동기 처리 중 오류: '+String(e.reason?.message||e.reason||'알 수 없는 오류')+' · 저장 데이터는 자동 초기화하지 않았어.'));
 let db=load(), battle={started:false,over:false,turn:1,active:'1',hp1:120,hp2:120,lastMove:{'1':null,'2':null},slots:{'1':[],'2':[]},effects:{'1':{},'2':{}},lastRoll:[],lastRollBySide:{'1':[],'2':[]},lastFailed:{'1':false,'2':false},poisoned:{'1':false,'2':false}};
+/* Keep this move's canonical rule and description visible even when an older saved
+   Pokémon record predates the latest default data. This only patches this one move
+   in memory and never resets or rewrites the user's saved data. */
+function normalizeMetagrossExplosion(){
+ const p=db.pokemon?.find(x=>x.name==='메타그로스');
+ const m=p?.moves?.find(x=>x.name==='대폭발');
+ if(!m)return;
+ m.cost={무색:4};m.damage=100;m.baseSelfDamage=120;
+ m.memo='기본 효과: 자신에게 120 데미지. 정방향일 때 이 기본 자해 피해를 무효화한다.';
+ m.effects=[...(m.effects||[]).filter(e=>e.type!=='cancelSelfDamage'),{poses:['정방향'],type:'cancelSelfDamage'}];
+}
+normalizeMetagrossExplosion();
 let pendingBlockSelection=null;
 function persist(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -1098,7 +1110,7 @@ setDamage:`피해를 ${e.value}(으)로 설정`,
 forceOpponentPosture:`상대 다음 턴 자세를 ${e.value||'물구나무'}로 지정`,
 mirrorOwnPosture:'다음 자신의 턴 자세를 이번 자세로 고정',
 charikoroBonusRoll:`추가 캐릭코로 ${e.rolls||3}회: ${(e.postures||[]).join('/')} 자세마다 피해 +${e.value}`,
-cancelSelfDamage:'기본 효과 무효 (자신이 받는 자해 피해 120 무효)',
+cancelSelfDamage:'정방향 효과: 기본 자해 피해 120 무효',
 selfDamageIfFailed:'공격 실패 시 자신에게 피해'
 };return labels[e.type]||e.type||'알 수 없는 추가 효과'}
 function renderFaces(){const root=document.getElementById('diceFaceConfig'),all=getDiceFaces();root.innerHTML=all.map((faces,d)=>`<div class="fighter"><h3>에네코로 ${d+1}</h3><div class="grid">${faces.map((f,i)=>{const choices=i<4?singleFaceChoices:doubleFaceChoices;return `<div class="field"><label>${i+1}면 · ${i<4?'단일 타입':'더블 타입'}</label><select id="die${d}face${i}">${choices.map(v=>`<option value="${v}">${v.replace('+',' + ')}</option>`).join('')}</select></div>`}).join('')}</div><p class="sub">단일 타입 4면은 에네코로 타입 중에서 선택하세요. 무색은 기술 비용에만 적용됩니다.</p></div>`).join('');all.forEach((faces,d)=>faces.forEach((f,i)=>{const el=document.getElementById(`die${d}face${i}`);el.value=(f.types||defaultFaces[i].types).join('+');}));}
