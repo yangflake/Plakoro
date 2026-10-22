@@ -1572,5 +1572,33 @@ button,.btn,.tab,.move-choice{touch-action:manipulation}
  #pvpSetupModal .pvp-setup-dialog .terminal-actions .btn{min-height:42px!important;padding:8px!important;font-size:13px!important}
 }
 
+
+/* Recovery: never disable scrolling for the whole game. Let content flow and keep every battle control reachable. */
+@media(min-width:900px){
+ html,body{overflow-x:hidden!important;overflow-y:auto!important}
+ main{overflow:visible!important;max-width:none!important;width:100%!important;padding:10px 22px!important}
+ main>.view{width:100%!important;max-width:none!important}
+ #pvp .pvp-shell,#pvp .pvp-battle-board,#pvp .pvp-action-panel{width:100%!important;max-width:none!important}
+ #pvpSetupModal .pvp-setup-dialog{width:min(1320px,calc(100vw - 64px))!important;max-height:calc(100dvh - 28px)!important;overflow-y:auto!important}
+ #pvpSetupModal #pvpMoveChoices{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media(max-width:700px){
+ html,body{overflow-x:hidden!important;overflow-y:auto!important}
+ main{overflow:visible!important;height:auto!important;min-height:0!important}
+ #pvpSetupModal.pvp-setup-modal{align-items:center!important;overflow-y:auto!important;padding:calc(8px + env(safe-area-inset-top)) 8px calc(8px + env(safe-area-inset-bottom))!important}
+ #pvpSetupModal .pvp-setup-dialog{width:100%!important;max-width:520px!important;max-height:calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;display:flex!important;flex-direction:column!important;overflow-y:auto!important;padding:12px!important;gap:2px}
+ #pvpSetupModal .pvp-move-heading{margin-bottom:5px!important;padding:0 0 5px!important}
+ #pvpSetupModal .pvp-move-heading h2{font-size:18px!important}
+ #pvpSetupModal .pvp-setup-dialog>.field{margin-bottom:5px!important}
+ #pvpSetupModal #pvpMoveSetupField{min-height:0!important;flex:0 0 auto!important;overflow:visible!important;padding-bottom:2px}
+ #pvpSetupModal #pvpMoveSetupField>p.sub{font-size:11px!important;line-height:1.35!important;margin:3px 0 6px!important}
+ #pvpSetupModal .pvp-setup-dialog .move-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+ #pvpSetupModal .pvp-setup-dialog .move-choice{min-height:58px!important;padding:7px!important;gap:3px!important}
+ #pvpSetupModal .pvp-setup-dialog .move-choice b{font-size:12px!important;line-height:1.25}
+ #pvpSetupModal .pvp-setup-dialog .move-choice small{font-size:10px!important;line-height:1.25!important;margin-top:2px!important}
+ #pvpSetupModal #pvpMoveSlotInfo{margin:4px 0!important;font-size:11px!important}
+ #pvpSetupModal .pvp-setup-dialog .terminal-actions{flex:0 0 auto!important;position:sticky!important;bottom:0!important;margin-top:5px!important;padding:6px 0 0!important;background:#fff!important;box-shadow:0 -5px 10px #fff!important}
+ #pvpSetupModal .pvp-setup-dialog .terminal-actions .btn{min-height:42px!important;padding:8px!important;font-size:13px!important}
+}
 </style>
 </body></html>
