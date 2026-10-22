@@ -485,5 +485,12 @@ console.log('Battle core tests passed: shared helpers, all effect handlers and e
    assert(html.includes("m.cost={무색:4};m.damage=100;m.baseSelfDamage=120;"), 'Metagross Explosion must remain colorless x4, 100 damage, and 120 base self-damage');
    assert(html.includes("정방향일 때 이 기본 자해 피해를 무효화한다."), 'Metagross move-list description must explain that only the basic self-damage is cancelled in the upright posture');
    assert(html.includes("cancelSelfDamage:'정방향 효과: 기본 자해 피해 120 무효'"), 'Metagross tooltip must label the upright self-damage cancellation clearly');
-   assert(html.includes("@media(max-height:560px)"), 'short-height devices must have a compact tutorial layout');
+  assert(html.includes('id="pvpResultRematch"'), 'PvP result popup must offer a rematch action');
+  const pvp = fs.readFileSync('./pvp.js', 'utf8');
+  assert(pvp.includes("a.kind==='rematch'&&roomState.over&&Object.keys(ps).length===2"), 'rematch must reset the completed two-player room');
+  assert(pvp.includes("roomState.over=false;roomState.revealed=false;roomState.firstMovePending=false"), 'rematch must clear completed battle state');
+  assert(pvp.includes("chosenMoves=[];updateMoves();publish();openSetupIfNeeded();return"), 'rematch must clear previous move choices and reopen setup');
+  assert(pvp.includes("a.kind==='leave'&&ps[a.by]"), 'leaving after results must remove the player from the host room');
+  assert(pvp.includes("if(roomState.players&&!roomState.players[playerId])"), 'a player removed from the room must return to the lobby');
+  assert(html.includes("@media(max-height:560px)"), 'short-height devices must have a compact tutorial layout');
 }
