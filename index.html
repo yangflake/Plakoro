@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="move-ui.js?v=20261020-explosion-ui-unified-v2"></script><script src="battle-core.js"></script><script src="pvp.js?v=20261020-explosion-ui-unified-v3" defer></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="move-ui.js?v=20261020-explosion-ui-unified-v2"></script><script src="battle-core.js"></script><script src="pvp.js?v=20261022-mobile-ui-parity-v1" defer></script>
 <title>프라코로 배틀 랩</title>
 <style>
 :root{--bg:#f4f6fb;--panel:#fff;--ink:#182033;--muted:#667085;--line:#dfe4ee;--accent:#5a53e8;--accent2:#e9e8ff;--red:#d94b58;--green:#16845b}
@@ -1599,6 +1599,61 @@ button,.btn,.tab,.move-choice{touch-action:manipulation}
  #pvpSetupModal #pvpMoveSlotInfo{margin:4px 0!important;font-size:11px!important}
  #pvpSetupModal .pvp-setup-dialog .terminal-actions{flex:0 0 auto!important;position:sticky!important;bottom:0!important;margin-top:5px!important;padding:6px 0 0!important;background:#fff!important;box-shadow:0 -5px 10px #fff!important}
  #pvpSetupModal .pvp-setup-dialog .terminal-actions .btn{min-height:42px!important;padding:8px!important;font-size:13px!important}
+}
+
+/* Mobile parity pass: make PvP use the same compact full-width arena rhythm as VS AI. */
+@media(max-width:700px){
+ #pvp .pvp-shell{width:100%;max-width:none;margin:0;gap:8px}
+ #pvp .pvp-topbar{align-items:center;gap:8px;padding:0 2px}
+ #pvp .pvp-topbar>div:first-child{min-width:0}
+ #pvp .pvp-topbar .sub{font-size:11px;line-height:1.35}
+ #pvp .pvp-top-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+ #pvp .pvp-top-actions .btn{font-size:11px;padding:8px 9px;min-height:36px}
+ #pvp .pvp-battle-board{padding:10px!important;margin:0 0 8px!important;border-radius:15px!important}
+ #pvp .pvp-battle-board>.terminal-heading{margin-bottom:7px}
+ #pvp .pvp-battle-board>.terminal-heading h2{font-size:16px}
+ #pvp .pvp-battle-board>.terminal-status{margin:7px 0;padding:8px 9px;font-size:11px;line-height:1.4}
+ #pvp .pvp-battle-board .terminal-hp-board{margin:8px 0 10px!important;gap:6px;padding:7px}
+ #pvp .pvp-battle-board .terminal-hp-card{padding:7px 5px;min-width:0}
+ #pvp .pvp-battle-board .terminal-pokemon-stage{width:44px;height:44px}
+ #pvp .pvp-battle-board .terminal-hp-top{gap:4px;align-items:flex-start}
+ #pvp .pvp-battle-board .terminal-hp-top b{font-size:10px;line-height:1.25}
+ #pvp .pvp-battle-board .terminal-hp-top strong{font-size:14px;white-space:nowrap}
+ #pvp .pvp-battle-board .terminal-hp-bar{height:7px}
+ #pvp .pvp-battle-board .dice-side-content{gap:5px}
+ #pvp .pvp-battle-board .charikoro-column{flex-basis:40px;width:40px;min-width:40px}
+ #pvp .pvp-battle-board .charikoro-board{width:40px;min-width:40px;height:49px;min-height:49px}
+ #pvp .pvp-battle-board .terminal-actions{display:flex;flex-direction:row;gap:7px;margin-top:8px}
+ #pvp .pvp-battle-board .terminal-actions>.btn{width:auto;flex:1;min-width:0;min-height:42px;padding:9px 6px;font-size:12px}
+ #pvp .pvp-action-panel{margin:0 0 8px!important;padding:10px!important;border-radius:15px!important;background:var(--panel,#fff)!important;color:var(--ink,#192238)!important;border:1px solid var(--line,#dce2ef)!important;box-shadow:0 4px 16px #17213a08!important}
+ #pvp .pvp-action-panel .terminal-heading{margin-bottom:7px}
+ #pvp .pvp-action-panel .terminal-heading h2{font-size:16px;color:var(--ink,#192238)}
+ #pvp .pvp-action-panel .terminal-heading .arena-label{color:var(--muted,#69758c)}
+ #pvp .pvp-action-panel .sub{color:var(--muted,#69758c)}
+ #pvp .pvp-action-panel .move-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:7px}
+ #pvp .pvp-action-panel .move-choice{min-height:64px!important;padding:8px!important;border-radius:11px;background:#fff!important;color:var(--ink,#192238)!important;border:1px solid var(--line,#dce2ef)!important}
+ #pvp .pvp-action-panel .move-choice b{font-size:12px;line-height:1.25}
+ #pvp .pvp-action-panel .move-choice small{font-size:10px;line-height:1.35;color:var(--muted,#69758c)!important}
+ #pvp .pvp-action-panel .move-choice.selected{background:var(--accent2,#eeedff)!important;border:2px solid var(--accent,#5952df)!important;padding:7px!important}
+ #pvp .pvp-action-panel .terminal-actions{display:flex;flex-direction:row;gap:7px;margin-top:8px}
+ #pvp .pvp-action-panel .terminal-actions>.btn{width:auto;flex:1;min-width:0;min-height:42px;padding:9px 6px;font-size:12px}
+ #pvp .pvp-log-panel{margin:0!important;padding:10px!important;border-radius:15px!important}
+ #pvp .pvp-log-panel .log{max-height:160px;min-height:58px}
+ #pvp .pvp-setup-dialog{width:calc(100vw - 20px)!important;max-width:520px!important;padding:12px!important}
+ #pvp .pvp-setup-dialog .move-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ #pvp .pvp-setup-dialog .move-choice{min-height:62px;padding:8px}
+ #pvp .pvp-setup-dialog .move-choice b{font-size:12px;line-height:1.25}
+ #pvp .pvp-setup-dialog .move-choice small{font-size:10px;line-height:1.3}
+ #pvp #pvpMovePickerModal .move-picker-dialog{width:calc(100vw - 20px);max-height:calc(100dvh - 24px);padding:12px;border-radius:15px}
+ #pvp #pvpMovePickerModal .move-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ #pvp #pvpMovePickerModal .move-choice{min-height:62px;padding:8px}
+}
+@media(max-width:380px){
+ #pvp .pvp-battle-board .terminal-hp-top strong{font-size:12px}
+ #pvp .pvp-battle-board .terminal-pokemon-stage{width:38px;height:38px}
+ #pvp .pvp-action-panel .move-choice{min-height:58px!important;padding:6px!important}
+ #pvp .pvp-action-panel .move-choice b{font-size:11px}
+ #pvp .pvp-top-actions .btn{font-size:10px;padding:7px}
 }
 </style>
 </body></html>
