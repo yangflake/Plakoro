@@ -1576,7 +1576,7 @@ button,.btn,.tab,.move-choice{touch-action:manipulation}
 /* Recovery: never disable scrolling for the whole game. Let content flow and keep every battle control reachable. */
 @media(min-width:900px){
  html,body{overflow-x:hidden!important;overflow-y:auto!important}
- main{overflow:visible!important;max-width:none!important;width:100%!important;padding:10px 22px!important}
+ main{overflow:visible!important;height:auto!important;min-height:0!important;flex:1 0 auto!important;max-width:none!important;width:100%!important;padding:10px 22px!important}
  main>.view{width:100%!important;max-width:none!important}
  #pvp .pvp-shell,#pvp .pvp-battle-board,#pvp .pvp-action-panel{width:100%!important;max-width:none!important}
  #pvpSetupModal .pvp-setup-dialog{width:min(1320px,calc(100vw - 64px))!important;max-height:calc(100dvh - 28px)!important;overflow-y:auto!important}
