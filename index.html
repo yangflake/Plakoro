@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="move-ui.js?v=20261020-explosion-ui-unified-v2"></script><script src="battle-core.js?v=20261103-test-null-guard-v2"></script><script src="pvp.js?v=20261103-test-null-guard-v2" defer></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="move-ui.js?v=20261020-explosion-ui-unified-v2"></script><script src="battle-core.js?v=20261103-test-ui-parity-v1"></script><script src="pvp.js?v=20261103-test-ui-parity-v1" defer></script>
 <title>프라코로 배틀 랩</title>
 <style>
 :root{--bg:#f4f6fb;--panel:#fff;--ink:#182033;--muted:#667085;--line:#dfe4ee;--accent:#5a53e8;--accent2:#e9e8ff;--red:#d94b58;--green:#16845b}
@@ -1600,6 +1600,35 @@ button,.btn,.tab,.move-choice{touch-action:manipulation}
  #pvpSetupModal #pvpMoveSlotInfo{margin:4px 0!important;font-size:11px!important}
  #pvpSetupModal .pvp-setup-dialog .terminal-actions{flex:0 0 auto!important;position:sticky!important;bottom:0!important;margin-top:5px!important;padding:6px 0 0!important;background:#fff!important;box-shadow:0 -5px 10px #fff!important}
  #pvpSetupModal .pvp-setup-dialog .terminal-actions .btn{min-height:42px!important;padding:8px!important;font-size:13px!important}
+}
+
+/* Shared mobile battle board: VS AI/towers and PvP use the same HP + sprite panel. */
+@media(max-width:700px){
+ #battle .arena-opponent>.fighter-top,
+ #battle .arena-opponent>.arena-identity,
+ #battle .arena-player>.arena-identity{display:none!important}
+ #battle .terminal-hp-board{display:grid!important;grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr)!important;gap:6px!important;margin:8px 0 10px!important;padding:7px!important}
+ #battle .terminal-hp-card{padding:7px 5px!important;min-width:0!important}
+ #battle .terminal-pokemon-stage{height:62px!important;margin:0 0 5px!important}
+ #battle .terminal-pokemon-stage img{max-width:76px!important}
+ #battle .terminal-hp-top{column-gap:4px!important;row-gap:3px!important}
+ #battle .terminal-hp-top b{font-size:10px!important;line-height:1.25!important}
+ #battle .terminal-hp-top strong{font-size:14px!important;white-space:nowrap!important}
+ #battle .terminal-hp-track{height:7px!important;margin-top:6px!important}
+ #battle .terminal-hp-caption{font-size:9px!important}
+ #battle .terminal-hp-vs{font-size:9px!important}
+ #battle .terminal-panel{padding:10px!important;border-radius:15px!important}
+ #battle .terminal-panel .terminal-status{margin:6px 0!important;padding:8px 9px!important;font-size:11px!important}
+ #battle .terminal-panel .dice-side-content{gap:5px!important}
+ #battle .terminal-panel .charikoro-column{flex-basis:40px!important;width:40px!important;min-width:40px!important}
+ #battle .terminal-panel .charikoro-board{width:40px!important;min-width:40px!important;height:49px!important;min-height:49px!important}
+ #battle .terminal-panel .terminal-actions{display:flex!important;flex-direction:row!important;gap:7px!important;margin-top:8px!important}
+ #battle .terminal-panel .terminal-actions>.btn{width:auto!important;flex:1!important;min-width:0!important;min-height:42px!important;padding:9px 6px!important;font-size:12px!important}
+}
+@media(max-width:380px){
+ #battle .terminal-pokemon-stage{height:52px!important}
+ #battle .terminal-hp-top strong{font-size:12px!important}
+ #battle .terminal-hp-card{padding:6px 4px!important}
 }
 
 /* Mobile parity pass: make PvP use the same compact full-width arena rhythm as VS AI. */
