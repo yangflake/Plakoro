@@ -1387,10 +1387,10 @@ if(!restoreTowerProgress())renderAll();
  const originalRenderSetupMoves=renderSetupMoves;
  renderSetupMoves=function(){originalRenderSetupMoves();applySetupMoveLocks()};
  function afterEneApplied(){if(!guided||stage!==2)return;$('enePrimaryType').disabled=false;openTutorialMoveSetup()}
- const applyButton=$('applyEneBatch'),originalApply=applyButton.onclick;
- applyButton.onclick=function(e){if(typeof originalApply==='function')originalApply.call(this,e);if(guided&&stage===2){if($('enePrimaryType').value!=='풀'){$('enePrimaryType').value='풀';if(originalApply)originalApply.call(this,e)}afterEneApplied()}};
- const confirmButton=$('confirmSetup'),originalConfirm=confirmButton.onclick;
- confirmButton.onclick=function(e){
+ const applyButton=$('applyEneBatch');
+ if(applyButton){const originalApply=applyButton.onclick;applyButton.onclick=function(e){if(typeof originalApply==='function')originalApply.call(this,e);if(guided&&stage===2){if($('enePrimaryType').value!=='풀'){$('enePrimaryType').value='풀';if(originalApply)originalApply.call(this,e)}afterEneApplied()}};}
+ const confirmButton=$('confirmSetup');
+ if(confirmButton){const originalConfirm=confirmButton.onclick;confirmButton.onclick=function(e){
   if(guided&&stage===3){
    const picked=[...document.querySelectorAll('#setupMoveChoices [data-setup-move][aria-pressed="true"]')].map(b=>String(b.dataset.setupMove));
    if(picked.length!==4||allowedMoves.some(m=>!picked.includes(String(m.id)))){$('setupSlotInfo').textContent='추천 기술 중 비용 2·3·3·4인 네 개를 선택해 주세요.';return}
@@ -1400,12 +1400,12 @@ if(!restoreTowerProgress())renderAll();
    return;
   }
   if(typeof originalConfirm==='function')return originalConfirm.call(this,e)
- };
- const firstTurn=$('firstTurnConfirm'),originalFirstTurn=firstTurn.onclick;
- firstTurn.onclick=async function(e){
+ };}
+ const firstTurn=$('firstTurnConfirm');
+ if(firstTurn){const originalFirstTurn=firstTurn.onclick;firstTurn.onclick=async function(e){
   if(guided&&stage===4){if(typeof originalFirstTurn==='function')await originalFirstTurn.call(this,e);if(guided){stage=5;showCoach('#rollAttack','이번 턴에 쓸 기술을 골라요','첫 행동은 에네코로 2개예요. 그래서 이번에는 에너지 비용이 2개인 잎날가르기를 선택해 볼게요. 에네코로 결과가 기술 비용을 채우면 기술이 발동해요.','기술 선택 열기',()=>$('rollAttack').click())}return}
   if(typeof originalFirstTurn==='function')return originalFirstTurn.call(this,e)
- };
+ };}
  const originalOpenMovePicker=openMovePicker;
  openMovePicker=function(mode='turn'){
   originalOpenMovePicker(mode);if(!guided||stage!==5||mode!=='turn')return;
