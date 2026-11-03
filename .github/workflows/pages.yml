@@ -1,8 +1,8 @@
-name: Deploy static site to GitHub Pages
+name: Deploy production and Plakoro test server
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "test-server"]
   workflow_dispatch:
 
 permissions:
@@ -21,16 +21,24 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout stable production
         uses: actions/checkout@v4
+        with:
+          ref: main
+          path: site
+      - name: Checkout test version
+        uses: actions/checkout@v4
+        with:
+          ref: test-server
+          path: site/test
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
-      - name: Upload site artifact
+      - name: Upload combined site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
