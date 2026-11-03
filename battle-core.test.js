@@ -552,3 +552,16 @@ console.log('Battle core tests passed: shared helpers, all effect handlers and e
   assert(towerFloor.includes("log('앗! 야생의 '+esc(opp.name)+'이(가) 나타났다!','good')"),
     'every tower floor must announce the wild opponent before opening move selection');
 }
+
+{
+  const html = fs.readFileSync('./index.html', 'utf8');
+  const pvp = fs.readFileSync('./pvp.js', 'utf8');
+  assert(html.includes("mobileBattle?selected.map(id=>moveById(p,id)).filter(Boolean):p.moves"),
+    'mobile VS AI and tower must show only the four selected moves during battle');
+  assert(html.includes("btn.dataset.tapArmed='yes'") && html.includes("doAttack('1')"),
+    'mobile VS AI and tower move cards must require a detail tap followed by a use tap');
+  assert(html.includes("btn.dataset.tapArmed='';btn.classList.remove('selected')"),
+    'mobile VS AI and tower move tap state must reset after each turn');
+  assert(html.includes("id=\"pvpInlineMoveChoices\"") && pvp.includes("data-pvp-inline-move"),
+    'mobile PvP must show the four selected moves inline instead of requiring the desktop picker');
+}
