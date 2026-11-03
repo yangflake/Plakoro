@@ -494,3 +494,89 @@ console.log('Battle core tests passed: shared helpers, all effect handlers and e
   assert(pvp.includes("if(roomState.players&&!roomState.players[playerId])"), 'a player removed from the room must return to the lobby');
   assert(html.includes("@media(max-height:560px)"), 'short-height devices must have a compact tutorial layout');
 }
+
+
+// Mobile battle-flow regression tests for the staged VS AI / tower / PvP UI.
+{
+  const html = fs.readFileSync('./index.html', 'utf8');
+  const pvp = fs.readFileSync('./pvp.js', 'utf8');
+  const setup = html.indexOf("function openSetupModal()");
+  const wild = html.indexOf("앗! 야생의 ", setup);
+  const setupModal = html.indexOf("modal.classList.add('open');modal.style.display='flex'", setup);
+  assert(setup >= 0 && wild > setup && setupModal > wild,
+    'VS AI and tower encounter text must appear before the move-selection popup');
+  const sequence = html.slice(html.indexOf('async function playKororoSequence'), html.indexOf('function renderCharikoro'));
+  assert(sequence.includes('root.classList.add(\'sequence-running\')') &&
+    sequence.includes('await wait(360)') &&
+    sequence.includes('root.classList.remove(\'sequence-running\')'),
+    'VS AI and tower EneKoro must be revealed one die at a time');
+  assert(html.includes('.dice-row-inner.sequence-running .die-roll:not(.sequence-active):not(.sequence-done)'),
+    'unrevealed dice must stay hidden during the one-by-one animation');
+  assert(!html.includes('.dice-results-board.sequence-running .die-roll:not(.sequence-active)'),
+    'the sequence visibility rule must target the actual inner dice row');
+  const start = html.indexOf('function startBattle()');
+  const startEnd = html.indexOf('function rollFace', start);
+  const startBody = html.slice(start, startEnd);
+  assert(startBody.includes('diceRevealed') === false,
+    'a new VS AI / tower battle should begin with the dice board unrevealed');
+  assert(startBody.includes('firstMovePending:true') && startBody.includes('firstTurnModal'),
+    'first-turn guidance must appear after the battle setup is confirmed');
+  assert(pvp.includes("if(roomState.processingAttack)return"),
+    'PvP must reject duplicate attacks while the staged sequence is running');
+  assert(pvp.includes("await new Promise(function(resolve){setTimeout(resolve,360)})") &&
+    pvp.includes("lastAttackResult={attacker:att.name,moveName:move.name,damage:damage") &&
+    pvp.includes('animating:true'),
+    'PvP must publish each die, then show the attack and damage animation before HP changes');
+  assert(pvp.includes("['pvpSelfSprite','pvpOpponentSprite'].forEach(function(id)") &&
+    pvp.includes("parent.querySelectorAll('.battle-damage-float').forEach(function(node){node.remove()})"),
+    'PvP damage labels must be removed from both sprites after the attack');
+  const animation = pvp.indexOf('lastAttackResult={attacker:att.name,moveName:move.name,damage:damage');
+  const hpApply = pvp.indexOf('tar.hp=Math.max(0,tar.hp-damage)', animation);
+  assert(animation >= 0 && hpApply > animation,
+    'PvP HP must be applied only after the visible damage stage begins');
+  assert(pvp.includes("log((tar.hp<=0?att.name:tar.name)+'이(가) 쓰러졌다.')"),
+    'PvP knockout must be announced before the victory result');
+  assert(!html.includes('localStorage.clear(') && !pvp.includes('localStorage.clear('),
+    'mobile battle-flow changes must not clear user storage');
+}
+
+{
+  const html = fs.readFileSync('./index.html', 'utf8');
+  const pvp = fs.readFileSync('./pvp.js', 'utf8');
+  assert(html.includes("log(esc(fainted.name)+'이(가) 쓰러졌다.','bad')") &&
+    html.includes("'배틀에서 '+(winner==='1'?'승리했다.':'패배했다.')"),
+    'VS AI and tower results must announce the fainted Pokémon and the player outcome');
+  assert(pvp.includes("winner===playerId?'배틀에서 승리했다. 최종 체력을 확인해.':'배틀에서 패배했다. 최종 체력을 확인해.'"),
+    'PvP result must show a player-relative win or loss message');
+  const towerFloor = html.slice(html.indexOf('function startNextTowerBattle'), html.indexOf('document.getElementById(\'returnHome\')'));
+  assert(towerFloor.includes("log('앗! 야생의 '+esc(opp.name)+'이(가) 나타났다!','good')"),
+    'every tower floor must announce the wild opponent before opening move selection');
+}
+
+{
+  const html = fs.readFileSync('./index.html', 'utf8');
+  const pvp = fs.readFileSync('./pvp.js', 'utf8');
+  assert(html.includes("mobileBattle?selected.map(id=>moveById(p,id)).filter(Boolean):p.moves"),
+    'mobile VS AI and tower must show only the four selected moves during battle');
+  assert(html.includes("btn.dataset.tapArmed='yes'") && html.includes("doAttack('1')"),
+    'mobile VS AI and tower move cards must require a detail tap followed by a use tap');
+  assert(html.includes("btn.dataset.tapArmed='';btn.classList.remove('selected')"),
+    'mobile VS AI and tower move tap state must reset after each turn');
+  assert(html.includes("id=\"pvpInlineMoveChoices\"") && pvp.includes("data-pvp-inline-move"),
+    'mobile PvP must show the four selected moves inline instead of requiring the desktop picker');
+}
+
+{
+  const pvp = fs.readFileSync('./pvp.js', 'utf8');
+  assert(pvp.includes('roomState.revision=Number(roomState.revision||0)+1'),
+    'PvP host state broadcasts must carry a monotonically increasing revision');
+  assert(pvp.includes('incomingRevision<=lastRoomRevision'),
+    'PvP guests must ignore stale or out-of-order room-state broadcasts');
+  assert(pvp.includes('hostActionQueue=hostActionQueue.then(function(){return processHostAction(a)})'),
+    'PvP host must serialize incoming room actions to prevent overlapping turn mutations');
+  assert(pvp.includes('roomState.processingAttack=true') &&
+    pvp.includes('roomState.processingAttack=false'),
+    'PvP attack processing must lock the room until the staged attack is complete');
+  assert(pvp.includes('var snapshot=JSON.parse(JSON.stringify(roomState))'),
+    'PvP broadcasts must send an immutable snapshot rather than a mutable state reference');
+}
