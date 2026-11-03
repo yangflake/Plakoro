@@ -565,3 +565,18 @@ console.log('Battle core tests passed: shared helpers, all effect handlers and e
   assert(html.includes("id=\"pvpInlineMoveChoices\"") && pvp.includes("data-pvp-inline-move"),
     'mobile PvP must show the four selected moves inline instead of requiring the desktop picker');
 }
+
+{
+  const pvp = fs.readFileSync('./pvp.js', 'utf8');
+  assert(pvp.includes('roomState.revision=Number(roomState.revision||0)+1'),
+    'PvP host state broadcasts must carry a monotonically increasing revision');
+  assert(pvp.includes('incomingRevision<=lastRoomRevision'),
+    'PvP guests must ignore stale or out-of-order room-state broadcasts');
+  assert(pvp.includes('hostActionQueue=hostActionQueue.then(function(){return processHostAction(a)})'),
+    'PvP host must serialize incoming room actions to prevent overlapping turn mutations');
+  assert(pvp.includes('roomState.processingAttack=true') &&
+    pvp.includes('roomState.processingAttack=false'),
+    'PvP attack processing must lock the room until the staged attack is complete');
+  assert(pvp.includes('var snapshot=JSON.parse(JSON.stringify(roomState))'),
+    'PvP broadcasts must send an immutable snapshot rather than a mutable state reference');
+}
