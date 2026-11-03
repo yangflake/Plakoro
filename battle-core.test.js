@@ -539,3 +539,16 @@ console.log('Battle core tests passed: shared helpers, all effect handlers and e
   assert(!html.includes('localStorage.clear(') && !pvp.includes('localStorage.clear('),
     'mobile battle-flow changes must not clear user storage');
 }
+
+{
+  const html = fs.readFileSync('./index.html', 'utf8');
+  const pvp = fs.readFileSync('./pvp.js', 'utf8');
+  assert(html.includes("log(esc(fainted.name)+'이(가) 쓰러졌다.','bad')") &&
+    html.includes("'배틀에서 '+(winner==='1'?'승리했다.':'패배했다.')"),
+    'VS AI and tower results must announce the fainted Pokémon and the player outcome');
+  assert(pvp.includes("winner===playerId?'배틀에서 승리했다. 최종 체력을 확인해.':'배틀에서 패배했다. 최종 체력을 확인해.'"),
+    'PvP result must show a player-relative win or loss message');
+  const towerFloor = html.slice(html.indexOf('function startNextTowerBattle'), html.indexOf('document.getElementById(\'returnHome\')'));
+  assert(towerFloor.includes("log('앗! 야생의 '+esc(opp.name)+'이(가) 나타났다!','good')"),
+    'every tower floor must announce the wild opponent before opening move selection');
+}
